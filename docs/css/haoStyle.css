@@ -1,216 +1,107 @@
-@import url('https://fonts.googleapis.com/css?family=Oldenburg');
+/* The repo list stylings */
 
-html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
-  margin: 0;
-  padding: 0;
-  border: 0;
-  font-size: 100%;
-  font: inherit;
-  vertical-align: baseline;
-  outline: none;
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-}
-html { overflow-y: scroll; }
-body {
-  background: #fafafa url('../img/grey.png'); /* source = http://subtlepatterns.com/subtle-grey/ */
-  font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif;
-  font-size: 62.5%;
-  line-height: 1;
-  color: #616161;
-  padding: 35px 0;
+img {
+    max-width: 100%;
+    max-height: 100%;
 }
 
-br { display: block; line-height: 1.6em; } 
-
-article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section { display: block; }
-ol, ul { list-style: none; }
-
-input, textarea { 
-  -webkit-font-smoothing: antialiased;
-  -webkit-text-size-adjust: 100%;
-  -ms-text-size-adjust: 100%;
-  -webkit-box-sizing: border-box;
-  -moz-box-sizing: border-box;
-  box-sizing: border-box;
-  outline: none; 
+.float_right {
+    float: right;
+    max-width: 100%;
+    max-height: 100%;
 }
 
-blockquote, q { quotes: none; }
-blockquote:before, blockquote:after, q:before, q:after { content: ''; content: none; }
-strong, b { font-weight: bold; } 
+.float_left {
+    float: left;
+    max-width: 100%;
+    max-height: 100%;
+}
 
-table { border-collapse: collapse; border-spacing: 0; }
-img { border: 0; max-width: 100%; }
+.float_link_right {
+    float: right;
+    margin: auto;
+    padding-top: 20px;
+    padding-right: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    color: black;
+}
 
-h1 { 
-  font-family: 'Oldenburg', Arial, sans-serif;
-  color: #646464;
-  font-size: 4.0em;
-  line-height: 1.6em;
-  margin-bottom: 10px;
+.float_link_left {
+    float: left;
+    margin: auto;
+    padding-top: 20px;
+    padding-left: 5px;
+    text-decoration: none;
+    font-size: 16px;
+    color: black;
+
+}
+
+.landscape_inline {
+    display: inline-block;
+    height: 60px;
+    width: 250px;
+    border: 2px solid black;
+    border-radius: 7px;
+    background-color: #f2f2f2; color: grey;
+    margin: 2px;
+}
+
+.repo_link {
+    float: left;
+    font-weight: bold;
+    padding-top: 5%;
+    padding-left: 2%;
+    font-size: 200%;
+    white-space:nowrap;
+    overflow: hidden;
+    text-overflow: clip;
+    width: 96%;
+    color: #505050;
+    text-decoration: none;
+}
+
+.repo_with_pages_link {
+    width: 73%;
+}
+
+.repo_without_pages_link {
+    width: 96%;
+}
+
+.gh_pages_link_icon {
+    position: relative;
+    float: right;
+    width: 25%;
+    height: 100%;
+}
+
+.landscape_inline:hover {
+    border: 2px solid grey;
+    background-color: #e6e6e6; color: grey;
 }
 
 h2 {
-  font-size: 2.8em;
-  line-height: 1.55em;
-  margin-bottom: 4px;
-  color: #888;
+    font-size: 2.8em;
+    line-height: 1.55em;
+    margin-bottom: 4px;
+    color: #888;
 }
 
-p {
-  font-size: 1.4em;
-  line-height: 1.55em;
-  margin-bottom: 12px;
+body {
+    font: 13px / 1.4 Helvetica, arial, nimbussansl, liberationsans, freesans, clean, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
 }
 
-a { 
-  color: #8eadd2;
-}
-a:hover {
-  color: #6e91b9;
-}
-
-
-/* page structure */
-#w {
-  display: block;
-  width: 800px;
-  margin: 0 auto;
-  background: #fff;
-  padding: 15px 25px;
-  -webkit-box-shadow: 1px 2px 3px -1px rgba(0,0,0,0.4);
-  -moz-box-shadow: 1px 2px 3px -1px rgba(0,0,0,0.4);
-  box-shadow: 1px 2px 3px -1px rgba(0,0,0,0.4);
-  -webkit-border-radius: 4px;
-  -moz-border-radius: 4px;
-  border-radius: 4px;
-}
-
-#ghapidata, #ghapidata1, #ghapidata2 {
-  display: block;
-  padding: 25px 0;
-}
-
-#loader {
-  display: block;
-  width: 200px;
-  height: 200px;
-  margin: 0 auto;
-}
-
-
-/* page content styles */
-.smallname {
-  font-size: 0.75em;
-  color: #a9a9a9;
-  font-style: italic;
-}
-
-.avi {
-  float: left;
-  margin-right: 7px;
-  margin-bottom: 7px;
-}
-.avi img {
-  border: 1px solid #ccc;
-  padding: 3px;
-}
-
-.repolist {
-  display: block;
-  clear: both;
-  width: 100%;
-}
-.repolist ul {
-  font-size: 1.2em;
-}
-.repolist ul li {
-  display: block;
-}
-.repolist ul li a {
-  font-weight: bold;
-  padding: 6px 9px;
-  display: block;
-  float: left;
-  margin-right: 10px;
-  margin-bottom: 10px;
-  text-decoration: none;
-  border: 1px solid #356492;
-  -webkit-border-radius: 3px;
-  -moz-border-radius: 3px;
-  border-radius: 3px;
-  color: #fff;
-  background-color: #3673af;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#5597d8), to(#3673af));
-  background-image: -webkit-linear-gradient(top, #5597d8, #3673af);
-  background-image: -moz-linear-gradient(top, #5597d8, #3673af);
-  background-image: -ms-linear-gradient(top, #5597d8, #3673af);
-  background-image: -o-linear-gradient(top, #5597d8, #3673af);
-  background-image: linear-gradient(top, #5597d8, #3673af);
-}
-.repolist ul li a:hover {
-  background-color: #396895;
-  background-image: -webkit-gradient(linear, left top, left bottom, from(#4b87c2), to(#396895));
-  background-image: -webkit-linear-gradient(top, #4b87c2, #396895);
-  background-image: -moz-linear-gradient(top, #4b87c2, #396895);
-  background-image: -ms-linear-gradient(top, #4b87c2, #396895);
-  background-image: -o-linear-gradient(top, #4b87c2, #396895);
-  background-image: linear-gradient(top, #4b87c2, #396895);
-}
-.repolist ul li a:active {
-  -webkit-box-shadow: inset 0 3px 5px rgba(0,0,0,0.25);
-  -moz-box-shadow: inset 0 3px 5px rgba(0,0,0,0.25);
-  box-shadow: inset 0 3px 5px rgba(0,0,0,0.25);
-}
-
-.repolist ul li a span {
-  font-family: "Courier New", Courier, "Lucida Typewriter", monospace;
-  font-size: 0.9em;
-}
-
-/* input field */
-#ghusername {
-  display: block;
-  padding: 5px 8px;
-  font-size: 1.4em;
-  color: #666;
-  width: 550px;
-  margin-bottom: 15px;
-}
-
-#basicData {
+.queryButton {
   display: inline-block;
-  padding: 8px 18px;
-  font-size: 14px;
+  width:25%;
+  padding: 5px 5px;
+  font-size: 12px;
   font-weight: bold;
-  color: #444;
-  text-decoration: none;
-  text-shadow: 0 1px 0 rgba(255,255,255,0.8);
-  background-color: #eaeaea;
-  background-image: -webkit-linear-gradient(#fafafa, #eaeaea);
-  background-image: -moz-linear-gradient(#fafafa, #eaeaea);
-  background-image: -ms-linear-gradient(top, #fafafa, #eaeaea);
-  background-image: -o-linear-gradient(top, #fafafa, #eaeaea);
-  background-image: linear-gradient(#fafafa, #eaeaea);
-  border-radius: 3px;
-  border: 1px solid #ddd;
-  border-bottom-color: #c5c5c5;
-  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
-  
-}
-
-#basicDataButton, #GitHubPagesButton, #resetButton {
-  display: inline-block;
-  padding: 8px 18px;
-  font-size: 14px;
-  font-weight: bold;
+  overflow: hidden;
+  white-space: nowrap;
+  text-align: center;
   color: #444;
   text-decoration: none;
   text-shadow: 0 1px 0 rgba(255,255,255,0.8);
@@ -227,7 +118,8 @@ a:hover {
   -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
   box-shadow: 0 1px 3px rgba(0,0,0,0.05);
 }
-#basicDataButton:hover, #GitHubPagesButton:hover, #resetButton:hover {
+
+.queryButton:hover {
   background-color: #dadada;
   background-image: -webkit-linear-gradient(#eaeaea, #dadada);
   background-image: -moz-linear-gradient(#eaeaea, #dadada);
@@ -236,7 +128,8 @@ a:hover {
   background-image: linear-gradient(#eaeaea, #dadada);
   border-color: #ccc #ccc #b5b5b5;
 }
-#basicDataButton:active, #GitHubPagesButton:active, #resetButton:active {
+
+.queryButton:active {
   background-color:#dadada;
   background-image: none;
   border-color: #b5b5b5;
@@ -245,9 +138,150 @@ a:hover {
   box-shadow: inset 0 3px 5px rgba(0,0,0,0.25);
 }
 
-/* clearfix */
-.clearfix:after { content: "."; display: block; clear: both; visibility: hidden; line-height: 0; height: 0; }
-.clearfix { display: inline-block; }
- 
-html[xmlns] .clearfix { display: block; }
-* html .clearfix { height: 1%; }
+/* input field */
+#inputGitHubUserField {
+  display: block;
+  padding: 5px 8px;
+  font-size: 1.4em;
+  color: #666;
+  width: 75%;
+  margin-top: 25px;
+  margin-bottom: 15px;
+}
+
+/* full page background Source (example #2) : https://css-tricks.com/perfect-full-page-background-image/ */
+
+img.fullpage_background_image {
+    /* Set rules to fill background */
+    min-height: 100%;
+    min-width: 1024px;
+    /* Set up proportionate scaling */
+    width: 100%;
+    height: auto;
+    /* Set up positioning */
+    position: fixed;
+    top: 0;
+    left: 0;
+}
+
+.the_top_left_corner {
+    position: fixed; /* forces the element to stay fixed in relation to the viewport */
+    top: 50%; /* sets the top of the image 50% of the page height */
+    left: 50%; /* sets the left side of the image 50% across the page */
+    margin-left: -100px; /* moves the image half of its own width to the left-side of the page */
+    margin-top: -93px; /* moves the image half its height 'up' the page */
+    box-shadow: 0.5em 0.5em 0.7em #333; /* to give the illusion of 'floating' */
+    border-radius: 1em;
+}
+
+@media screen and (max-width: 1024px) {
+    /* Specific to this particular image */
+    img.fullpage_background_image {
+        left: 50%;
+        margin-left: -512px;
+
+        /* 50% */
+    }
+}
+
+#pageTitle {
+    text-align: center;
+    font-family: Arial, Helvetica, sans-serif;
+}
+
+#page_contents {
+    /*
+    position: relative;
+    width: 100% 100%;
+    */
+    padding: 5px;
+    background: white;
+    -moz-box-shadow: 0 0 20px black;
+    -webkit-box-shadow: 0 0 20px black;
+    box-shadow: 0 0 20px black;
+    border-radius: 20px;
+    opacity: 0.95;
+}
+
+#horizon {
+    color: black;
+    background-color: #00000;
+    text-align: center;
+    position: fixed;
+    top: 10%;
+    left: 0px;
+    width: 100%;
+    height: 1px;
+    overflow: visible;
+    visibility: visible;
+    display: block
+}
+
+#apiCallsRemaining {
+  display: inline-block;
+  padding: 8px 18px;
+  font-size: 14px;
+  font-weight: bold;
+  color: #444;
+  text-decoration: none;
+  text-shadow: 0 1px 0 rgba(255,255,255,0.8);
+  background-color: #eaeaea;
+  background-image: -webkit-linear-gradient(#fafafa, #eaeaea);
+  background-image: -moz-linear-gradient(#fafafa, #eaeaea);
+  background-image: -ms-linear-gradient(top, #fafafa, #eaeaea);
+  background-image: -o-linear-gradient(top, #fafafa, #eaeaea);
+  background-image: linear-gradient(#fafafa, #eaeaea);
+  border-radius: 3px;
+  border: 1px solid #ddd;
+  border-bottom-color: #c5c5c5;
+  -webkit-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  -moz-box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+}
+
+#queriedUsersAvatar {
+    display: inline;
+}
+
+#avatar_image {
+    float: left;
+    height: 150px;
+    width: 150px;
+    text-decoration: none;
+    border-radius: 10px;
+    margin-right: 25px;
+}
+
+#userInfoHeading {
+    text-align: left;
+    display: inline;
+}
+
+#queriedUsersNameOrHandle {
+  font-size: 0.85em;
+  color: grey;
+}
+
+#queriedUsersContactInfo {
+  font-size: 0.75em;
+  color: grey;
+  font-style: italic;
+  text-decoration: none;
+}
+
+#queriedUsersRepoDataStats {
+    font-size: 20px;
+    font-weight: bold;
+    color: grey;
+    display: inline-block;
+    text-align: justify;
+    margin: 0px 0px 0px 10px;
+}
+
+#loader {
+  display: block;
+  width: 100px;
+  height: 100px;
+  opacity: 0.2;
+  margin: 0 auto;
+}
