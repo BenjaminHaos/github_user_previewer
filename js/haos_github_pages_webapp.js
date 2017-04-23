@@ -1,7 +1,7 @@
 var view_needs_update = true;
 var num_of_actions_client_actioned = 0;
 var client_modded_default = false;
-var default_username = "KoreaHaos";
+var default_username = "CarrollCapstoneCrew";
 var default_user_object;
 
 function update_dom() {
