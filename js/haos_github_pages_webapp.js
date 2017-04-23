@@ -314,17 +314,17 @@ $('#GitHubPagesButton').on('click', function(wtf_is_this) {
   manage_user_input_field();
   if (!default_user_object && default_username) {
     build_default_user_object(populate_pages_data);
-    $('#githubPagesData').html('<div id="loader"><img src="gifs/waiting_black.gif" alt="loading..."></div>');
+    $('#githubPagesData').html('<div id="loader"><img src="gifs/loading.gif" alt="loading..."></div>');
   }
   else {
     if (we_need_to_update_default_user_object()) {
       build_default_user_object(populate_pages_data);
-      $('#githubPagesData').html('<div id="loader"><img src="gifs/waiting_black.gif" alt="loading..."></div>');
+      $('#githubPagesData').html('<div id="loader"><img src="gifs/loading.gif" alt="loading..."></div>');
     }
     else {
       if (view_needs_update) {
         build_default_user_object(populate_pages_data);
-        $('#githubPagesData').html('<div id="loader"><img src="gifs/waiting_black.gif" alt="loading..."></div>');
+        $('#githubPagesData').html('<div id="loader"><img src="gifs/loading.gif" alt="loading..."></div>');
       }
     }
   }
