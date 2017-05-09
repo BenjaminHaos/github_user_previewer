@@ -1,6 +1,8 @@
 # GitHub Pages WebApp
 
-You can view the app running [here](https://carrollcapstonecrew.github.io/github_pages_previewer/).
+*version 0.0000001*
+
+You can view the app running [here](https://benjaminhaos.github.io/github_user_previewer/).
 
 # ToDo
 
