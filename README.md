@@ -1,6 +1,6 @@
 # GitHub Pages WebApp
 
-*version 0.0000002*
+*version 0.0000003*
 
 You can view the app running [here](https://benjaminhaos.github.io/github_user_previewer/).
 
