@@ -5,3 +5,4 @@ function init() {
 }
 
 init
+printf "Hello World?\n"
