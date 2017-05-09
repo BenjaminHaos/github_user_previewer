@@ -8,4 +8,4 @@ Trello/Scrum [Board](https://trello.com/b/wogqPgQ6)
 
 ### Credits
 
-* This project was built after studying this [tutorial](http://blog.teamtreehouse.com/code-a-simple-github-api-webapp-using-jquery-ajax).
+This project was built off [previous work](https://github.com/CarrollCapstoneCrew/github_pages_previewer)

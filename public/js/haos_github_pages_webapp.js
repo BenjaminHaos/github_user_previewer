@@ -1,7 +1,8 @@
 var view_needs_update = true;
 var num_of_actions_client_actioned = 0;
 var client_modded_default = false;
-var default_username = "CarrollCapstoneCrew";
+//var default_username = "BenjaminHaos";
+var default_username = "";
 var default_user_object;
 
 function update_dom() {
@@ -65,7 +66,7 @@ function get_basic_user_data(user_dom_should_work_with) {
 
   requestJSON(url_to_call, function(json) {
     var basic_user_data_html_string = "NOT_SET";
-    var error_string = "update_dom() could not get github_rate_limit_url_string"
+    var error_string = "update_dom() could not get github_rate_limit_url_string";
 
     if (json.message == "Not Found") {
       basic_user_data_html_string = error_string;
@@ -104,7 +105,7 @@ function update_basic_user_data_view() {
         innerHTML += '<span id="queriedUsersNameOrHandle">' + fullname + '';
           innerHTML += '<span id="queriedUsersContactInfo"><a id="queriedUsersContactInfo" href="' + default_user_object.email + '" target="_blank">';
             innerHTML += '(@' + username;
-          innerHTML += ')</a>'
+          innerHTML += ')</a>';
           innerHTML += '</span>';
         innerHTML += '</span>';
       innerHTML += '</div>';
@@ -149,7 +150,7 @@ function update_api_calls_remain_view() {
   requestJSON(github_rate_limit_url_string, function(json) {
 
     var basicGitHubAPIrateString = "NOT_SET";
-    var error_string = "update_dom() could not get github_rate_limit_url_string"
+    var error_string = "update_dom() could not get github_rate_limit_url_string";
 
     if (json.message == "Not Found") {
       basicGitHubAPIrateString = error_string;
@@ -179,7 +180,8 @@ function requestJSON(url, callback) {
   });
 }
 
-function populate_pages_data(data_to_populate_default_user_object_with) {
+function populate_pages_data_now(data_to_populate_default_user_object_with) {
+  console.log("populate_pages_data_now called!");
   default_user_object = data_to_populate_default_user_object_with;
 
   var num_of_repos_to_call_for = default_user_object.public_repos;
@@ -212,6 +214,10 @@ function populate_pages_data(data_to_populate_default_user_object_with) {
   });
 }
 
+function populate_pages_data(data_to_populate_default_user_object_with){
+  setTimeout(function(){populate_pages_data_now(data_to_populate_default_user_object_with)}, 1000);
+}
+
 function make_github_pages_html_from_default_user_object() {
   var return_html_string = "";
   return_html_string += "";
@@ -227,16 +233,16 @@ function make_github_pages_html_from_default_user_object() {
     }
     
     return_html_string += default_user_object.repos_api_data[i].html_url;
-    return_html_string += '" target="_blank">'
+    return_html_string += '" target="_blank">';
     return_html_string += default_user_object.repos_api_data[i].name;
-    return_html_string += '</a>'
+    return_html_string += '</a>';
     
     if (default_user_object.repos_api_data[i].has_pages) {
       return_html_string += '<a class="repo_pages_link" href = "';
       return_html_string += default_user_object.repos_api_data[i].repos_pages_url;
-      return_html_string += '" target="_blank">'
-      return_html_string += '<img class="gh_pages_link_icon" src="img/default_pages_icon.png" alt="gh-pages link">'
-      return_html_string += '</a>'
+      return_html_string += '" target="_blank">';
+      return_html_string += '<img class="gh_pages_link_icon" src="img/default_pages_icon.png" alt="gh-pages link">';
+      return_html_string += '</a>';
     }
     return_html_string += "</div>";
   }

@@ -12,6 +12,8 @@ function move_into_repo_directory_and_initialize_gitflow(){
     
     cd $GOPATH/$repo__directory_name
     git flow init -d;
+    npm install;
+    npm start;
 }
 
 function install_dependencies() {
