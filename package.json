@@ -14,6 +14,7 @@
     "start": "react-scripts start",
     "build": "react-scripts build && cp -r build ./docs && rm -rf build",
     "test": "react-scripts test --env=jsdom",
+    "setup-vm": "bash z_haos_scripts/say_hello.bash",
     "eject": "react-scripts eject"
   }
 }
