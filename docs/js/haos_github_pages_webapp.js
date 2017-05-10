@@ -1,119 +1,32 @@
-var view_needs_update = true;
-var num_of_actions_client_actioned = 0;
-var client_modded_default = false;
-//var default_username = "BenjaminHaos";
-var default_username = "";
-var default_user_object;
+/* global $*/
 
-function update_dom() {
+var user_object;
+var debug = false;
 
-  var user_dom_should_work_with = $('#inputGitHubUserField').val();
-
-  // If the user/client has entered text in the field, we note that.
-  if (user_dom_should_work_with) {
-    client_modded_default = true;
-    view_needs_update = true;
-  }
-
-  // Then this part of the code manages the text input field.
-
-  // if we have no text in the input field and no default set,
-  if (!user_dom_should_work_with && !default_username) {
-    // the user has not set a GitHub user to query.
-  }
-  // else, if we have no text in the input field but a default is set,
-  else if (!user_dom_should_work_with && default_username) {
-    // we use the default;
-    user_dom_should_work_with = default_username;
-    // If it's the first load on the browser, do nothing.
-    // If it's the second load and the original default has not been modded,
-    if (num_of_actions_client_actioned == 1 && !client_modded_default) {
-      get_basic_user_data(user_dom_should_work_with);
-    }
-    else {
-      get_basic_user_data(user_dom_should_work_with);
-    }
-  }
-  // else if we have text in the input field and a default already set,"
-  else if (user_dom_should_work_with && default_username) {
-
-    // We should see if there is any change and if there is,"
-    if (!(user_dom_should_work_with === default_username)) {
-      get_basic_user_data(user_dom_should_work_with);
-      reset_pages_view();
-    }
-  }
-  else {
-    get_basic_user_data(user_dom_should_work_with);
-  }
-
-  // Clear the text field and change the placeholder.
-  // console.log("user_dom_should_work_with = " + user_dom_should_work_with)
-  update_input_text_field(user_dom_should_work_with);
-
-  // Let the user know how many calls they have left.
-  update_api_calls_remain_view();
-
-  num_of_actions_client_actioned++;
-}
-
-function get_basic_user_data(user_dom_should_work_with) {
-  // update the global variable.
-  default_username = user_dom_should_work_with;
-
-  var basic_github_user_api_string = "https://api.github.com/users/";
-  var url_to_call = basic_github_user_api_string + default_username;
-
-  requestJSON(url_to_call, function(json) {
-    var basic_user_data_html_string = "NOT_SET";
-    var error_string = "update_dom() could not get github_rate_limit_url_string";
-
-    if (json.message == "Not Found") {
-      basic_user_data_html_string = error_string;
-    }
-    else {
-      default_user_object = json;
-    }
-    update_basic_user_data_view();
-  });
-}
-
-function update_basic_user_data_view() {
-
-  var fullname = default_user_object.name;
-  var username = default_user_object.login;
-  var users_email = default_user_object.email;
-
-  if (fullname === undefined || fullname === null) {
-    fullname = username;
-  }
-
-  if (users_email === "null") {
-    users_email = default_user_object.html_url;
-  }
+function dom_display_no_user_message(user_not_found) {
+  if(debug){console.log("user_not_found : " + user_not_found)}
+  
+  var fullname = user_not_found;
 
   var innerHTML = "";
   innerHTML += '<div>';
     innerHTML += '<div id="basicGitHubUserData">';
       innerHTML += '<div id="queriedUsersAvatar">';
-        innerHTML += '<a href="' + default_user_object.html_url + '" target="_blank">';
-        innerHTML += '<img id="avatar_image" src="' + default_user_object.avatar_url + '" alt="' + fullname + '">';
-        innerHTML += '</a>';
+        innerHTML += '<img id="avatar_image" src="../img/octocat_sad.jpg" alt="' + fullname + '">';
       innerHTML += '</div>';
       innerHTML += '<div>';
       innerHTML += '<h2 id="userInfoHeading">';
-        innerHTML += '<span id="queriedUsersNameOrHandle">' + fullname + '';
-          innerHTML += '<span id="queriedUsersContactInfo"><a id="queriedUsersContactInfo" href="' + default_user_object.email + '" target="_blank">';
-            innerHTML += '(@' + username;
-          innerHTML += ')</a>';
-          innerHTML += '</span>';
+        innerHTML += '<span  style="color:red;" id="queriedUsersNameOrHandle">' + fullname + '';
         innerHTML += '</span>';
       innerHTML += '</div>';
       innerHTML += '</h2>';
-      innerHTML += '<div id="queriedUsersRepoDataStats">';
-        innerHTML += 'Public Repos : ' + default_user_object.public_repos;
+      innerHTML += '<div style="color:red;text-align: center;" id="queriedUsersRepoDataStats">';
+        innerHTML += 'USER';
         innerHTML += '</br>';
-        innerHTML += 'Public Gists : ' + default_user_object.public_gists;
+        innerHTML += 'NOT';
+        innerHTML += '</br>';
+        innerHTML += 'FOUND';
+        innerHTML += '</br>';
     innerHTML += '</div>';
   innerHTML += '</div>';
   innerHTML += '</br>';
@@ -121,125 +34,90 @@ function update_basic_user_data_view() {
   $('#basicGitHubUserDataContainer').html(innerHTML);
 }
 
-function update_input_text_field(user_to_work_with) {
-  
-  //var valueInTextInputField = 
-  if (user_to_work_with) {
-    if (client_modded_default) {
-      document.getElementsByName('textInputForGitHubUserName')[0].placeholder = user_to_work_with;
-
-    }
-    else {
-      document.getElementsByName('textInputForGitHubUserName')[0].placeholder = 'Enter a GitHub username here. Default : ' + user_to_work_with;
-    }
+function dom_display_basic_user_info() {
+  if (user_object===undefined){
+    $('#basicGitHubUserDataContainer').html('');
+    return;
   }
-  else {
-    document.getElementsByName('textInputForGitHubUserName')[0].placeholder = 'Enter a GitHub username here.';
-  }
-  clear_input_field();
-}
-
-function clear_input_field() {
-  document.getElementsByName('textInputForGitHubUserName').value = '';
-}
-
-function update_api_calls_remain_view() {
-  //console.log("update_api_calls_remain_view called");
-  var github_rate_limit_url_string = 'https://api.github.com/rate_limit';
-
-  requestJSON(github_rate_limit_url_string, function(json) {
-
-    var basicGitHubAPIrateString = "NOT_SET";
-    var error_string = "update_dom() could not get github_rate_limit_url_string";
-
-    if (json.message == "Not Found") {
-      basicGitHubAPIrateString = error_string;
-      console_display_error_value(error_string);
-    }
-    else {
-      var calls_remaining = json.resources.core.remaining;
-      //console.log("calls_remaining = " + calls_remaining);
-      basicGitHubAPIrateString = "<p id=\"apiCallsRemaining\"> API calls remaining : " + calls_remaining + " </p>";
-    }
-    $('#githubAPIdata').html(basicGitHubAPIrateString);
-  });
   
+  $('#basicGitHubUserDataContainer').html('<div id="loader"><img src="gifs/loading.gif" alt="loading..."></div>');
   
-}
+  var fullname = user_object.name;
+  var username = user_object.login;
+  var users_email = user_object.email;
 
-function console_display_error_value(val_in) {
-  console.log(val_in);
-}
-
-function requestJSON(url, callback) {
-  $.ajax({
-    url: url,
-    complete: function(xhr) {
-      callback.call(null, xhr.responseJSON);
-    }
-  });
-}
-
-function populate_pages_data_now(data_to_populate_default_user_object_with) {
-  console.log("populate_pages_data_now called!");
-  default_user_object = data_to_populate_default_user_object_with;
-
-  var num_of_repos_to_call_for = default_user_object.public_repos;
-
-  if (num_of_repos_to_call_for > 100) {
-    num_of_repos_to_call_for = 100;
-    console.log("MORE THAN 100 REPOS!");
+  if (fullname === undefined || fullname === null) {
+    fullname = username;
   }
 
-  var github_users_repos_api_string = default_user_object.repos_url;
-  var pagination_concatination_string = "?per_page=" + num_of_repos_to_call_for;
-  var error_string = "populate_pages_data() API call failed!";
+  if (users_email === "null") {
+    users_email = user_object.html_url;
+  }
 
-  var url_to_call = github_users_repos_api_string + pagination_concatination_string;
+  var innerHTML = "";
+  innerHTML += '<div>';
+    innerHTML += '<div id="basicGitHubUserData">';
+      innerHTML += '<div id="queriedUsersAvatar">';
+        innerHTML += '<a href="' + user_object.html_url + '" target="_blank">';
+        innerHTML += '<img id="avatar_image" src="' + user_object.avatar_url + '" alt="' + fullname + '">';
+        innerHTML += '</a>';
+      innerHTML += '</div>';
+      innerHTML += '<div>';
+      innerHTML += '<h2 id="userInfoHeading">';
+        innerHTML += '<span id="queriedUsersNameOrHandle">' + fullname + '';
+          innerHTML += '<span id="queriedUsersContactInfo"><a id="queriedUsersContactInfo" href="' + user_object.email + '" target="_blank">';
+            innerHTML += '(@' + username;
+          innerHTML += ')</a>';
+          innerHTML += '</span>';
+        innerHTML += '</span>';
+      innerHTML += '</div>';
+      innerHTML += '</h2>';
+      innerHTML += '<div id="queriedUsersRepoDataStats">';
+        innerHTML += 'Public Repos : ' + user_object.public_repos;
+        innerHTML += '</br>';
+        innerHTML += 'Public Gists : ' + user_object.public_gists;
+    innerHTML += '</div>';
+  innerHTML += '</div>';
+  innerHTML += '</br>';
 
-  requestJSON(url_to_call, function(json_returned) {
-    if (json_returned.message == "Not Found") {
-      console_display_error_value(error_string);
-    }
-    else {
-      default_user_object.repos_api_data = json_returned;
-      for (var i = 0; i < default_user_object.repos_api_data.length; i++) {
-        if (default_user_object.repos_api_data[i].has_pages) {
-          var github_pages_url_string = "http://" + default_user_object.login + ".github.io/" + default_user_object.repos_api_data[i].name;
-          default_user_object.repos_api_data[i].repos_pages_url = github_pages_url_string;
-        }
-      }
-    }
-    $('#githubPagesData').html(make_github_pages_html_from_default_user_object());
-  });
+  $('#basicGitHubUserDataContainer').html(innerHTML);
 }
 
-function populate_pages_data(data_to_populate_default_user_object_with){
-  setTimeout(function(){populate_pages_data_now(data_to_populate_default_user_object_with)}, 1000);
+function dom_display_repos_and_stars_with_timeout(){
+  $('#githubPagesData').html('<div id="loader"><img src="gifs/loading.gif" alt="loading..."></div>');
+  setTimeout(function(){dom_display_users_repos_with_gh_pages_starred()}, 1000);
 }
 
-function make_github_pages_html_from_default_user_object() {
+function dom_display_users_repos_with_gh_pages_starred() {
+  if (user_object===undefined){
+    $('#githubPagesData').html('');
+    return;
+  }
+  $('#githubPagesData').html(make_github_pages_html_from_user_object());
+}
+
+function make_github_pages_html_from_user_object() {
   var return_html_string = "";
   return_html_string += "";
   return_html_string += '<div class="repolistRoundTwo">';
-  for (var i = 0; i < default_user_object.repos_api_data.length; i++) {
+  for (var i = 0; i < user_object.repos_api_data.length; i++) {
     
     return_html_string += '<div class="landscape_inline">';
     
-    if (default_user_object.repos_api_data[i].has_pages) {
+    if (user_object.repos_api_data[i].has_pages) {
       return_html_string += '<a class="repo_link repo_with_pages_link" href = "';
     } else {
       return_html_string += '<a class="repo_link repo_without_pages_link" href = "';
     }
     
-    return_html_string += default_user_object.repos_api_data[i].html_url;
+    return_html_string += user_object.repos_api_data[i].html_url;
     return_html_string += '" target="_blank">';
-    return_html_string += default_user_object.repos_api_data[i].name;
+    return_html_string += user_object.repos_api_data[i].name;
     return_html_string += '</a>';
     
-    if (default_user_object.repos_api_data[i].has_pages) {
+    if (user_object.repos_api_data[i].has_pages) {
       return_html_string += '<a class="repo_pages_link" href = "';
-      return_html_string += default_user_object.repos_api_data[i].repos_pages_url;
+      return_html_string += user_object.repos_api_data[i].repos_pages_url;
       return_html_string += '" target="_blank">';
       return_html_string += '<img class="gh_pages_link_icon" src="img/default_pages_icon.png" alt="gh-pages link">';
       return_html_string += '</a>';
@@ -252,93 +130,116 @@ function make_github_pages_html_from_default_user_object() {
   return return_html_string;
 }
 
-function build_default_user_object(function_to_call_once_user_object_is_built) {
-  // This function updates the global variable 'default_user_object'.
+function clear_input_field() {
+  document.getElementById('inputGitHubUserField').value = '';
+}
 
-  var basic_github_user_api_string = "https://api.github.com/users/";
-  var url_to_call = basic_github_user_api_string + default_username;
+function reset_dom() {
+  clear_input_field();
+  user_object=undefined;
+  dom_display_basic_user_info();
+  dom_display_users_repos_with_gh_pages_starred();
+}
 
-  var error_string = "build_default_user_object() API call failed!";
+function handle_click(function_to_call) {
+  var input_field_string;
+  input_field_string = $('#inputGitHubUserField').val();
 
-  requestJSON(url_to_call, function(json_returned) {
-    if (json_returned.message == "Not Found") {
-      console_display_error_value(error_string);
+  if (!input_field_string && user_object===undefined) {
+    if (debug){console.log("NO TEXT FIELD and NO USER OBJECT!")}
+    return;
+  }
+
+  if (!input_field_string && user_object) {
+    if (debug){console.log("NO TEXT FIELD and USER OBJECT!")}
+    function_to_call();
+    return;
+  }
+
+  if (debug){console.log("INPUT TO PARSE")}
+  
+  reset_dom();
+  clear_input_field();
+  
+  user_object=undefined;
+
+  var github_user_api_url = "https://api.github.com/users/" + input_field_string;
+
+  requestJSON(github_user_api_url, function(json) {
+    if (json.message == "Not Found") {
+      user_object=undefined;
+      dom_display_no_user_message(input_field_string);
     }
-    function_to_call_once_user_object_is_built(json_returned);
+    else {
+      user_object = json;
+
+      var num_of_repos_to_call_for = user_object.public_repos;
+
+      if (num_of_repos_to_call_for > 100) {
+        num_of_repos_to_call_for = 100;
+        console.log("MORE THAN 100 REPOS!");
+      }
+
+      var github_users_repos_api_string = user_object.repos_url;
+      var pagination_concatination_string = "?per_page=" + num_of_repos_to_call_for;
+      var url_to_call = github_users_repos_api_string + pagination_concatination_string;
+
+      requestJSON(url_to_call, function(json_returned) {
+        if (json_returned.message == "Not Found") {
+          user_object.repos_api_data = json_returned;
+        }
+        else {
+          user_object.repos_api_data = json_returned;
+          
+          for (var i = 0; i < user_object.repos_api_data.length; i++) {
+            if (user_object.repos_api_data[i].has_pages) {
+              var github_pages_url_string = "http://" + user_object.login + ".github.io/" + user_object.repos_api_data[i].name;
+              user_object.repos_api_data[i].repos_pages_url = github_pages_url_string;
+            }
+          }
+          function_to_call();
+        }
+      });
+    }
   });
 }
 
-function we_need_to_update_default_user_object() {
-  if (default_username.toUpperCase() === default_user_object.login.toUpperCase()) {
-    return false;
-  }
-  else {
-    //console.log("default_username has been modified.");
-    return true;
+function console_output_user_object() {
+  if (user_object) {
+    console.log("* * * USER OBJECT START * * *");
+    console.log(user_object);
+    console.log("* * *  USER OBJECT END  * * *");
+  } else {
+    console.log("* * * NO USER OBJECT TO OUTPUT * * *");
   }
 }
 
-function manage_user_input_field() {
-
-  var user_dom_should_work_with = $('#inputGitHubUserField').val();
-
-  // If the user/client has entered text in the field, we note that.
-  if (user_dom_should_work_with) {
-    client_modded_default = true;
-    view_needs_update = true;
-  }
-
-  if (user_dom_should_work_with && default_username) {
-    // We should see if there is any change and if there is,"
-    if (!(user_dom_should_work_with === default_username)) {
-      default_username = user_dom_should_work_with;
-      view_needs_update = true;
+function requestJSON(url, callback) {
+  $.ajax({
+    url: url,
+    complete: function(xhr) {
+      callback.call(null, xhr.responseJSON);
     }
-  }
-  else if (user_dom_should_work_with && !default_username) {
-    default_username = user_dom_should_work_with;
-    view_needs_update = true;
-  }
-
-  if (num_of_actions_client_actioned < 2) {
-    view_needs_update = true;
-  }
-  update_input_text_field(default_username);
-}
-
-function reset_pages_view() {
-  $('#githubPagesData').html('<div id="pagesDataBlank"></div>');
+  });
 }
 
 // Button 1
 $('#basicDataButton').on('click', function(wtf_is_this) {
-  update_dom();
+  handle_click(dom_display_basic_user_info);
 });
 
 // Button 2
 $('#GitHubPagesButton').on('click', function(wtf_is_this) {
-  manage_user_input_field();
-  if (!default_user_object && default_username) {
-    build_default_user_object(populate_pages_data);
-    $('#githubPagesData').html('<div id="loader"><img src="gifs/loading.gif" alt="loading..."></div>');
-  }
-  else {
-    if (we_need_to_update_default_user_object()) {
-      build_default_user_object(populate_pages_data);
-      $('#githubPagesData').html('<div id="loader"><img src="gifs/loading.gif" alt="loading..."></div>');
-    }
-    else {
-      if (view_needs_update) {
-        build_default_user_object(populate_pages_data);
-        $('#githubPagesData').html('<div id="loader"><img src="gifs/loading.gif" alt="loading..."></div>');
-      }
-    }
-  }
+  handle_click(dom_display_repos_and_stars_with_timeout);
 });
 
 // Button 3 : A basic reset on the app, clears default user.
 $('#resetButton').on('click', function(wtf_is_this) {
-  location.reload();
+  if (debug) {
+    console_output_user_object();
+    reset_dom();
+  }
+  else {
+    reset_dom();
+  }
 });
-
-update_dom();
