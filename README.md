@@ -1,4 +1,4 @@
-# GitHub Pages WebApp
+# GitHub User Previewer WebApp
 
 ***version 0.003***
 
@@ -31,3 +31,8 @@ Trello/Scrum [Board](https://trello.com/b/wogqPgQ6)
 ### Credits
 
 This project was built off a bit of my [previous work](https://github.com/CarrollCapstoneCrew/github_pages_previewer)
+
+help from:
+
+* [javascriptplayground](http://javascriptplayground.com/blog/2017/01/http-requests-reactjs/)
+
